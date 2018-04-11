@@ -1,32 +1,64 @@
-from lxml import html
+from bs4 import BeautifulSoup
+from selenium import webdriver
 import requests
-from lxml import etree
+import time
 
-def text_tail(node):
-    yield node.text
-    yield node.tail
+# ------------------------------------------------- #
 
-url='https://www.supremenewyork.com/shop/all'
+# I'm using Python3. If using Python 2.x, remove the parenthesis around print statements
 
-response = requests.get(url) #get page data from server, block redirects
-sourceCode = response.content #get string of source code from response
-htmlElem = html.document_fromstring(sourceCode) #make HTML element object
+# SELENIUM MODULE #
 
-listClass =  htmlElem.find_class('inner-article')
-for elem in listClass:
-	# print(elem.attrib)
-	stringelem = html.tostring(elem)
-	# print(stringelem)
-	# print(html.tostring(elem.xpath('//a')))
-	# print(elem.xpath('//a')[0].get('href'))
+def shop(items):
+	"""Adds items that are not sold out to the cart"""
+	items = extract_items(url)
+	browser = webdriver.Firefox()
+	for item in items:
+		browser.get('https://www.supremenewyork.com{}'.format(item[0]))
+		button = browser.find_element_by_xpath("//input[@value='add to cart']")
+		print('found item {} in stock!'.format(item[1]))
+		button.click()
 
+	# COMMENT THESE 2 LINES OUT DURING TESTING
+	checkout = browser.find_element_by_class_name('checkout')
+	checkout.click()
 
+# WEB SCRAPERS #
 
-# doc=lh.parse(urllib.request.urlopen(url).read())
-# tree = etree.fromstring(doc)
-# for elem in tree.xpath('/html/body/div/div//article'):
-# 	print(etree.tostring(elem, pretty_print=True))
+# COMMENT THIS OUT DURING TESTING #
+def update_items(url):
+	"""Runs web scraper to get list of items for sale every 60 minutes (360 sec)"""
+	while True:
+		extract_items(url)
+		time.sleep(360)
 
+def extract_items(url):
+	"""Find items from supreme shop all page
+	Returns list of tuples.
+	tuple[0] = '/shop/bags/bg6jf4l0s/xi689n0dc'
+			   Supreme item route
+	tuple[1] = 'A/B' where A = item id, B = color id
+	"""
+	page = requests.get(url)
+	soup = BeautifulSoup(page.content, 'html.parser')
+	items = soup.find_all('div', attrs={'class': 'inner-article'})
+	hrefs = set()
+	for item in items:
+		link = item.find('a')['href']
+		# item_id looks like 'item_id/color_id'
+		item_id = ('/').join(link.split('/')[-2:])
+		hrefs.update((link, item_id))
 
+	print(hrefs)
+	return hrefs
 
+# ------------------------------------------------- #
+
+url = 'https://www.supremenewyork.com/shop/all'
+
+items = extract_items(url)
+
+ORDERS = {}
+
+shop(items)
 
