@@ -25,6 +25,95 @@ String.prototype.capitalizeEachWord = function() {
  * @param  {String} category
  * @return {Array}
  */
+api.getSlimItems = function(category, callback) {
+
+    var getURL = api.url + '/shop/all/' + category;
+    if (category == 'all') {
+        getURL = api.url + '/shop/all';
+    } else if (category == 'new') {
+        getURL = api.url + '/shop/new';
+    }
+
+    request(getURL, function(err, resp, html, rrr, body) {
+
+        if (!err) {
+            if (err) {
+                console.log('err')
+                return callback('No response from website', null);
+            } else {
+                var $ = cheerio.load(html);
+            }
+
+            var count = $('img').length;
+
+            // if ($('.shop-closed').length > 0) {
+            //   return callback('Store Closed', null);
+            // } else if (count === 0) {
+            //   return callback('Store Closed', null);
+            // }
+
+            var parsedResults = [];
+
+
+            // console.log(len);
+            $('img').each(function(i, element) {
+
+                var nextElement = $(this).next();
+                var prevElement = $(this).prev();
+                var title = $(this).attr('alt');
+                var link = api.url + this.parent.attribs.href;
+                var sizesAvailable;
+
+                request(link, function(err, resp, html, rrr, body) {
+
+                    if (err) {
+                        return callback('No response from website', null);
+                    } else {
+                        var $ = cheerio.load(html);
+                    }
+
+                    var addCartURL = api.url + $('form[id="cart-addf"]').attr('action');
+
+                    var sizeOptionsAvailable = [];
+                    if ($('option')) {
+                        $('option').each(function(i, elem) {
+                            var size = {
+                                id: parseInt($(this).attr('value')),
+                                size: $(this).text(),
+                            }
+                            sizeOptionsAvailable.push(size);
+                        });
+
+                        if (sizeOptionsAvailable.length > 0) {
+                            sizesAvailable = sizeOptionsAvailable
+                        } else {
+                            sizesAvailable = null
+                        }
+                    } else {
+                        sizesAvailable = null;
+                    }
+
+                    var metadata = {
+                        title: $('h1').attr('itemprop', 'name').eq(1).html(),
+                        link: link,
+                        addCartURL: addCartURL,
+                        sizesAvailable: sizesAvailable,
+                    };
+
+                    parsedResults.push(metadata);
+
+                    if (!--count) {
+                        callback(parsedResults, null);
+                    }
+
+                })
+
+            });
+        } else {
+            return callback('No response from website', null);
+        }
+    });
+};
 
 api.getItems = function(category, callback) {
 
