@@ -33,6 +33,6 @@ NPM 5.8.0
 1. make smaller comparison file. 
 
 ## Collaborators: 
-[David Ammons](https://github.com/dammo001)
-[Jonathan Tung](https://github.com/jtung23)
-[Shirley Xiaolin Xu](https://github.com/xiaolin-ninja)
+[David Ammons](https://github.com/dammo001)  
+[Jonathan Tung](https://github.com/jtung23)  
+[Shirley Xiaolin Xu](https://github.com/xiaolin-ninja)  
