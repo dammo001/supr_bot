@@ -13,11 +13,11 @@
 
 ### Functions:
 
-*Automated*
+*Automated*  
 **extract_items** - parses main sales page and extracts item url and item ID of each item
 **update_items** - calls *extract_items* by N interval, in seconds
 
-*Manual*
+*Manual*  
 **shop** - Adds all items to cart and clicks "checkout"
 
 ### To-Do List:
