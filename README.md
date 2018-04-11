@@ -24,7 +24,7 @@
 1. Test Selenium web driver
 2. Automate *shop*. Decide at which interval, and whether we need to store results from *extract_items* multiple times for multiple *shop* calls... or only run *extract_items* as a callback function after each *shop* order.
 
-### Node.JS API Wrapper
+## Node.JS API Wrapper
 
 ### Technologies
 NPM 5.8.0
