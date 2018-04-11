@@ -1,5 +1,4 @@
-# Supr Bot
-## Node.JS API Wrapper and Python Parser for [Supreme](https://www.supremenewyork.com)
+# Supr Bot – Node.JS API Wrapper and Python Parser for [Supreme](https://www.supremenewyork.com)
 
 ## Python Web Scraper
 
