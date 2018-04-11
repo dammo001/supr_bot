@@ -3,9 +3,9 @@
 ## Python Web Scraper
 
 ### Technologies
-[BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) . 
-[Selenium](https://www.seleniumhq.org/) . 
-[Requests](http://docs.python-requests.org/en/master/) . 
+[BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) 
+[Selenium](https://www.seleniumhq.org/)  
+[Requests](http://docs.python-requests.org/en/master/)  
 [Time](https://docs.python.org/2/library/time.html)
 
 ### Installation
