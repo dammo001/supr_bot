@@ -14,8 +14,10 @@ htmlElem = html.document_fromstring(sourceCode) #make HTML element object
 
 listClass =  htmlElem.find_class('inner-article')
 for elem in listClass:
-	# stringelem = html.tostring(elem)
-	print(html.tostring(elem.xpath('//a')[0]))
+	# print(elem.attrib)
+	stringelem = html.tostring(elem)
+	# print(stringelem)
+	# print(html.tostring(elem.xpath('//a')))
 	# print(elem.xpath('//a')[0].get('href'))
 
 

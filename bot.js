@@ -1,4 +1,4 @@
-var supreme = require('./index.js');
+var supreme = require('./utils/ApiMethods.js');
 var fs = require('fs');
 
 var Benchmark = require('benchmark');
