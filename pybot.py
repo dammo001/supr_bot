@@ -11,17 +11,21 @@ import time
 
 def shop(items):
 	"""Adds items that are not sold out to the cart"""
-	browser = webdriver.Safari(executable_path="/usr/bin/safaridriver")
+	items = extract_items(url)
+	browser = webdriver.Firefox()
 	for item in items:
 		browser.get('https://www.supremenewyork.com{}'.format(item[0]))
 		button = browser.find_element_by_xpath("//input[@value='add to cart']")
 		print('found item {} in stock!'.format(item[1]))
 		button.click()
+
+	# COMMENT THESE 2 LINES OUT DURING TESTING
 	checkout = browser.find_element_by_class_name('checkout')
 	checkout.click()
 
 # WEB SCRAPERS #
 
+# COMMENT THIS OUT DURING TESTING #
 def update_items(url):
 	"""Runs web scraper to get list of items for sale every 60 minutes (360 sec)"""
 	while True:
@@ -45,13 +49,14 @@ def extract_items(url):
 		item_id = ('/').join(link.split('/')[-2:])
 		hrefs.update((link, item_id))
 
+	print(hrefs)
 	return hrefs
 
 # ------------------------------------------------- #
 
 url = 'https://www.supremenewyork.com/shop/all'
 
-items = update_items(url)
+items = extract_items(url)
 
 ORDERS = {}
 
