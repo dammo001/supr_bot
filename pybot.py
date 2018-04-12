@@ -9,12 +9,14 @@ import time
 
 # SELENIUM MODULE #
 
-def shop(items):
+def shop(url):
 	"""Adds items that are not sold out to the cart"""
 	items = extract_items(url)
 	browser = webdriver.Firefox()
 	for item in items:
-		browser.get('https://www.supremenewyork.com{}'.format(item[0]))
+		link = "https://www.supremenewyork.com{}".format(item[0])
+		print(link)
+		browser.get(link)
 		button = browser.find_element_by_xpath("//input[@value='add to cart']")
 		print('found item {} in stock!'.format(item[1]))
 		button.click()
@@ -60,5 +62,5 @@ items = extract_items(url)
 
 ORDERS = {}
 
-shop(items)
+shop(url)
 
