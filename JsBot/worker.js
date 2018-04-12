@@ -1,9 +1,9 @@
 self.onmessage = function (msg){
+  console.log("on message" , msg);
   waiting = msg.data.waiting
   next_drop = nextDay(4)
   today = new Date()
   seconds_until = (next_drop.getTime() - today.getTime()) / 1000
-  console.log(seconds_until)
 
   while(waiting && seconds_until > 10){
     today = new Date()
@@ -26,18 +26,16 @@ function nextDay(x){
   var offset = -4
   var nyc = utc + (3600000*offset)
   now = new Date(nyc)
-
   now.setDate(now.getDate() + (x+(7-now.getDay())) % 7);
   if(new Date() == 4){
     if(now.getHours() >= 11){ // if we are on a thurs but past drop time
       now.setDate(now.getDate() + 7) // add week
     }
   }
-
-  now.setHours(11)
+  //set to 8am for PST
+  now.setHours(8)
   now.setMinutes(0)
   now.setSeconds(0)
   now.setMilliseconds(0)
-  console.log(now) //should be correct for every timezone
   return now;
 }
