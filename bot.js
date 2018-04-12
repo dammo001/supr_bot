@@ -59,6 +59,8 @@ function getCurrentSlimInventory(callback) {
 // runs comparisonFunc with slim inventory list
 		if (callback) {
 			callback(slim_product)
+		} else {
+			writeFile("og_slim_inventory.json",slim_product)
 		}
 		
 	})
