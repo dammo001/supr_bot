@@ -32,7 +32,6 @@ NPM 5.8.0
 ### To-Do List:
 1. make smaller comparison file. 
 
-<<<<<<< HEAD
 #### How to use pybot.py
 
 1. Install virtualenv
@@ -57,9 +56,7 @@ NPM 5.8.0
 5. Run Bot
 		`python pybot.py`
 
-=======
 ## Collaborators: 
 [David Ammons](https://github.com/dammo001)  
 [Jonathan Tung](https://github.com/jtung23)  
 [Shirley Xiaolin Xu](https://github.com/xiaolin-ninja)  
->>>>>>> 7d76cb4e0d582cf17454986294b1f549a76ff6a7
