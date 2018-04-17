@@ -32,8 +32,28 @@ chrome.storage.sync.get(get, res => {
     $('#order_billing_country').change()
   }, 2000)
 
+  //Add the CVV char by char on an interval
+  var addLetter = (i) => {
+    $(cvv_input).val($(cvv_input).val() + res.cvv[i])
+  }
+
+  var cvvInputs = [];
   cvv_input = $( ":contains('CVV')", ".string", ".required" )[0].nextSibling
-  $(cvv_input).val(res.cvv);
+  for (i = 0; i < res.cvv.length; i++) {
+    //Push a bound function into an array so we can call them on an interval
+    const toInput = addLetter.bind(null, i);
+    cvvInputs.push(toInput);
+  }
+
+  //Execute each function in the array LIFO on an interval, clear the interval once it's done
+  var interval = setInterval(() => {
+    const toExecute = cvvInputs.shift();
+    if (toExecute) {
+      toExecute();
+    } else {
+      window.clearInterval(interval);
+    }
+  }, 50);
 
   $('#order_terms').click();
   $('.iCheck-helper').click();
