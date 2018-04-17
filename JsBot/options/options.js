@@ -152,10 +152,6 @@ function display_items(items){
 
       //togggle btn and update item list
       toggleBtn(itemCode)
-      console.log('sending analytic info')
-      postData('https://yie3r47kbf.execute-api.us-east-1.amazonaws.com/test', {itemCode: itemCode})
-        .then(data => console.log(data)) // JSON from `response.json()` call
-        .catch(error => console.error(error))
     }
   }
 }
@@ -208,10 +204,7 @@ function toggleBtn(id){
         new_items += item + ','
       }
     }
-
     codes.value = new_items.substring(0, new_items.length - 1) //chop off last ,
-
-
   }
 }
 
@@ -224,17 +217,7 @@ function hasClass(id, className){
 document.addEventListener('DOMContentLoaded', init);
 document.getElementById('save').addEventListener('click', save_options);
 
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-114925064-1']);
-_gaq.push(['_trackPageview']);
-
-
 $(function(){
-
-  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-  ga.src = 'https://ssl.google-analytics.com/ga.js';
-  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-
   jQuery.expr[':'].icontains = function(a, i, m) {
     return jQuery(a).text().toUpperCase()
       .indexOf(m[3].toUpperCase()) >= 0;
