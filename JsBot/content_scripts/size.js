@@ -17,7 +17,7 @@ chrome.storage.sync.get(['working_codes', 'sizes'], function(res){
     res.sizes.forEach( (size) => {
       for (let i = 0; i < size_options.length; i++){
         let select_text = $(size_options[i]).text()
-        if (!found_size && size == select_text){
+        if (!found_size && size.toLowerCase() === select_text.toLowerCase()){
           select_idx = i
           size_choice = size
           found_size = true
