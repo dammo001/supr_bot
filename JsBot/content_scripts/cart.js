@@ -23,7 +23,28 @@ chrome.storage.sync.get(get, res => {
 
   $('#credit_card_type').val(res.card_type);
 
-  $(':contains(number)').next().val(res.card_number)
+  // $(':contains(number)').next().val(res.card_number)
+  var addChar = (i, selector, source) => {
+    selector.val(selector.val() + source[i])
+  }
+
+  const ccInputs = [];
+  for (i = 0; i < res.card_number.length; i++) {
+    cc_input = $(':contains(number)').next();
+    const selector = $(cc_input);
+    const source = res.card_number;
+    const toInput = addChar.bind(null, i, selector, source);
+    ccInputs.push(toInput);
+  }
+
+  var ccInterval = setInterval(() => {
+    const toExecute = ccInputs.shift();
+    if (toExecute) {
+      toExecute();
+    } else {
+      window.clearInterval(interval);
+    }
+  }, 50);
 
   $('#credit_card_month').val(res.exp_mon);
   $('#credit_card_year').val(res.exp_yr);
@@ -32,16 +53,16 @@ chrome.storage.sync.get(get, res => {
     $('#order_billing_country').change()
   }, 2000)
 
-  //Add the CVV char by char on an interval
-  var addLetter = (i) => {
-    $(cvv_input).val($(cvv_input).val() + res.cvv[i])
-  }
 
+
+  //set CVV values
   var cvvInputs = [];
-  cvv_input = $( ":contains('CVV')", ".string", ".required" )[0].nextSibling
   for (i = 0; i < res.cvv.length; i++) {
     //Push a bound function into an array so we can call them on an interval
-    const toInput = addLetter.bind(null, i);
+    cvv_input = $( ":contains('CVV')", ".string", ".required" )[0].nextSibling
+    const selector = $(cvv_input);
+    const source = res.cvv;
+    const toInput = addChar.bind(null, i, selector, source);
     cvvInputs.push(toInput);
   }
 
