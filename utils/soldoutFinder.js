@@ -23,7 +23,7 @@ let generateList = (counter) => {
 
     cacheListLength = cacheList.length || 0;
 
-    if(soldOutItemsLength > cacheListLength) {
+    if(soldOutItemsLength !== cacheListLength) {
       //check difference
       Array.prototype.diff = function (a) {
         return this.filter(function (i) {
@@ -34,15 +34,24 @@ let generateList = (counter) => {
 
       //generate new time
       let newTime = getHourMinutesSeconds();
+      let outputFileArray = [];
 
-      fs.appendFileSync(`soldout_list_${d}.json`, JSON.stringify(newSoldOutItems), (err) => {
+      newSoldOutItems.forEach(function(item) {
+          let slashFilter = item.image.substr(item.image.lastIndexOf('/') + 1).replace('_', ' ').replace('-', ' ');
+          outputFileArray.push({
+            color: item.style,
+            title: item.title,
+            timeStamp: newTime,
+            productId: slashFilter
+          })
+      });
+
+      fs.appendFileSync(`soldout_list_${d}.json`, JSON.stringify(outputFileArray), (err) => {
         if (err) throw err;
         console.log('data was appended to file!');
       });
 
       cacheList = soldOutItems;
-    } else {
-      console.log('no new sold out items');
     }
   });
 };
@@ -62,11 +71,8 @@ let generateFile = () => {
       if (err) throw err;
     });
     console.log('generated file');
-  } else {
-    console.log('file already exists');
   }
 }
 
-setInterval(function(){ generateList() }, 2000);
-//TODO: appendtimestamp as part of objs
-//TODO: why does second interval not work
+generateList();
+// setInterval(function(){ generateList() }, 50000);
