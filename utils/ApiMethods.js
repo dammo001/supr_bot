@@ -121,8 +121,9 @@ api.getItems = function(category, callback) {
                         var styles = $('.styles')[0].children;
                         for (li in styles) {
                             for (a in styles[li].children) {
-                                if (styles[li].children[a].attribs['data-style-name'] == metadata.style) {
-                                    metadata.images.push('https:' + JSON.parse(styles[li].children[a].attribs['data-images']).zoomed_url)
+                                const attrbs = styles[li].children[a].attribs;
+                                if (attrbs && attrbs['data-style-name'] == metadata.style) {
+                                  metadata.images.push('https:' + JSON.parse(styles[li].children[a].attribs['data-images']).zoomed_url)
                                 }
                             }
                         }
