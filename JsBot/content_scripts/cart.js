@@ -37,14 +37,16 @@ chrome.storage.sync.get(get, res => {
     ccInputs.push(toInput);
   }
 
+  let ccSet = false;
   var ccInterval = setInterval(() => {
     const toExecute = ccInputs.shift();
     if (toExecute) {
       toExecute();
     } else {
-      window.clearInterval(interval);
+      ccSet = true;
+      window.clearInterval(ccInterval);
     }
-  }, 50);
+  }, 25);
 
   $('#credit_card_month').val(res.exp_mon);
   $('#credit_card_year').val(res.exp_yr);
@@ -52,8 +54,6 @@ chrome.storage.sync.get(get, res => {
   setTimeout(()=>{
     $('#order_billing_country').change()
   }, 2000)
-
-
 
   //set CVV values
   var cvvInputs = [];
@@ -68,6 +68,7 @@ chrome.storage.sync.get(get, res => {
 
   //Execute each function in the array LIFO on an interval, clear the interval once it's done
   var interval = setInterval(() => {
+    if (!ccSet) return;
     const toExecute = cvvInputs.shift();
     if (toExecute) {
       toExecute();
