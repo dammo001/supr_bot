@@ -24,7 +24,6 @@ let generateList = (counter) => {
       return product.availability !== 'Sold Out';
     });
 
-    let availableItemsLength = availableItems.length;
     let soldOutItemsLength = soldOutItems.length;
 
     cacheListLength = cacheList.length || 0;
@@ -58,7 +57,7 @@ let generateList = (counter) => {
         console.log('data was appended to file!');
       });
 
-      if(restockItems) {
+      if(restockItems && restockItems.length) {
         fs.appendFileSync(`newAvailableList${d}.json`, JSON.stringify(restockItems), (err) => {
           if (err) throw err;
           console.log('data was appended to file!');
