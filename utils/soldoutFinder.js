@@ -19,6 +19,12 @@ let generateList = (counter) => {
     let soldOutItems = products.filter((product) => {
       return product.availability === 'Sold Out';
     });
+
+    let availableItems = products.filter((product) => {
+      return product.availability !== 'Sold Out';
+    });
+
+    let availableItemsLength = availableItems.length;
     let soldOutItemsLength = soldOutItems.length;
 
     cacheListLength = cacheList.length || 0;
@@ -31,6 +37,7 @@ let generateList = (counter) => {
         });
       };
       let newSoldOutItems = soldOutItems.diff(cacheList);
+      let restockItems = cacheList.diff(availableItems);
 
       //generate new time
       let newTime = getHourMinutesSeconds();
@@ -50,6 +57,13 @@ let generateList = (counter) => {
         if (err) throw err;
         console.log('data was appended to file!');
       });
+
+      if(restockItems) {
+        fs.appendFileSync(`newAvailableList${d}.json`, JSON.stringify(restockItems), (err) => {
+          if (err) throw err;
+          console.log('data was appended to file!');
+        });
+      }
 
       cacheList = soldOutItems;
     }
@@ -74,5 +88,6 @@ let generateFile = () => {
   }
 }
 
+generateList();
 generateList();
 // setInterval(function(){ generateList() }, 50000);
