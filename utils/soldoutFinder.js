@@ -88,6 +88,6 @@ let generateFile = () => {
   }
 };
 
-let runInterval = (intervalLength, getSoldOut, getRestock) => {
-  setInterval(function(){ generateList(getSoldOut, getRestock) }, (intervalLength || 10000));
+const runInterval = (intervalLength, getSoldOut, getRestock) => {
+  setInterval(() => generateList(getSoldOut, getRestock), (intervalLength || 10000));
 };
