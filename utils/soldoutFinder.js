@@ -5,7 +5,7 @@ let d = new Date().toISOString().split('T')[0];
 let cacheList = [];
 let cacheListLength;
 
-let generateList = (counter) => {
+let generateList = (getSoldOut, getRestock) => {
   //create a file if it doesn't exist
   generateFile();
 
@@ -19,6 +19,11 @@ let generateList = (counter) => {
     let soldOutItems = products.filter((product) => {
       return product.availability === 'Sold Out';
     });
+
+    let availableItems = products.filter((product) => {
+      return product.availability !== 'Sold Out';
+    });
+
     let soldOutItemsLength = soldOutItems.length;
 
     cacheListLength = cacheList.length || 0;
@@ -31,6 +36,7 @@ let generateList = (counter) => {
         });
       };
       let newSoldOutItems = soldOutItems.diff(cacheList);
+      let restockItems = cacheList.diff(availableItems);
 
       //generate new time
       let newTime = getHourMinutesSeconds();
@@ -46,10 +52,19 @@ let generateList = (counter) => {
           })
       });
 
-      fs.appendFileSync(`soldout_list_${d}.json`, JSON.stringify(outputFileArray), (err) => {
-        if (err) throw err;
-        console.log('data was appended to file!');
-      });
+      if(getSoldOut) {
+        fs.appendFileSync(`soldout_list_${d}.json`, JSON.stringify(outputFileArray), (err) => {
+          if (err) throw err;
+        });
+      }
+
+      if(getRestock) {
+        if(restockItems && restockItems.length) {
+          fs.appendFileSync(`newAvailableList${d}.json`, JSON.stringify(restockItems), (err) => {
+            if (err) throw err;
+          });
+        }
+      }
 
       cacheList = soldOutItems;
     }
@@ -70,9 +85,9 @@ let generateFile = () => {
     fs.writeFileSync(`soldout_list_${d}.json`, '', (err) => {
       if (err) throw err;
     });
-    console.log('generated file');
   }
-}
+};
 
-generateList();
-// setInterval(function(){ generateList() }, 50000);
+const runInterval = (intervalLength, getSoldOut, getRestock) => {
+  setInterval(() => generateList(getSoldOut, getRestock), (intervalLength || 10000));
+};
