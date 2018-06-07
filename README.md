@@ -59,4 +59,5 @@ NPM 5.8.0
 ## Collaborators: 
 [David Ammons](https://github.com/dammo001)  
 [Jonathan Tung](https://github.com/jtung23)  
-[Shirley Xiaolin Xu](https://github.com/xiaolin-ninja)  
+[Shirley Xiaolin Xu](https://github.com/xiaolin-ninja)
+[George Gao](https://github.com/gegao0124)
