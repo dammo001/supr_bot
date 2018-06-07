@@ -80,10 +80,18 @@ chrome.storage.sync.get(get, res => {
   $('#order_terms').click();
   $('.iCheck-helper').click();
 
-  if(res.buy_auto){
-    //warning if buy_auto on this will finish payment
-    $('[name="commit"]').click()
-  }
+  var checkoutInterval = setInterval(() => {
+    if (!ccSet) {
+      return
+    } else {
+      window.clearInterval(checkoutInterval);
+      if(res.buy_auto){
+        //warning if buy_auto on this will finish payment
+        $('[name="commit"]').click()
+      }
+    }
+  }, 500);
+
   chrome.runtime.sendMessage({type: "off"}, function(res){});
   }, parseInt(res.checkout_delay) * 1000);
 
