@@ -22,31 +22,7 @@ chrome.storage.sync.get(get, res => {
   $('#order_billing_state').val(res.state);
 
   $('#credit_card_type').val(res.card_type);
-
-  // $(':contains(number)').next().val(res.card_number)
-  var addChar = (i, selector, source) => {
-    selector.val(selector.val() + source[i])
-  }
-
-  const ccInputs = [];
-  for (i = 0; i < res.card_number.length; i++) {
-    cc_input = $(':contains(number)').next();
-    const selector = $(cc_input);
-    const source = res.card_number;
-    const toInput = addChar.bind(null, i, selector, source);
-    ccInputs.push(toInput);
-  }
-
-  let ccSet = false;
-  var ccInterval = setInterval(() => {
-    const toExecute = ccInputs.shift();
-    if (toExecute) {
-      toExecute();
-    } else {
-      ccSet = true;
-      window.clearInterval(ccInterval);
-    }
-  }, 25);
+  $(':contains(number)').next().val(res.card_number)
 
   $('#credit_card_month').val(res.exp_mon);
   $('#credit_card_year').val(res.exp_yr);
@@ -54,6 +30,10 @@ chrome.storage.sync.get(get, res => {
   setTimeout(()=>{
     $('#order_billing_country').change()
   }, 2000)
+
+  var addChar = (i, selector, source) => {
+    selector.val(selector.val() + source[i])
+  }
 
   //set CVV values
   var cvvInputs = [];
@@ -68,7 +48,6 @@ chrome.storage.sync.get(get, res => {
 
   //Execute each function in the array LIFO on an interval, clear the interval once it's done
   var interval = setInterval(() => {
-    if (!ccSet) return;
     const toExecute = cvvInputs.shift();
     if (toExecute) {
       toExecute();
