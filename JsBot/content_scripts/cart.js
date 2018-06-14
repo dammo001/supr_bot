@@ -35,6 +35,9 @@ chrome.storage.sync.get(get, res => {
     selector.val(selector.val() + source[i])
   }
 
+  $('#order_terms').click();
+  $('.iCheck-helper').click();
+
   //set CVV values
   var cvvInputs = [];
   for (i = 0; i < res.cvv.length; i++) {
@@ -53,16 +56,13 @@ chrome.storage.sync.get(get, res => {
       toExecute();
     } else {
       window.clearInterval(interval);
+      if(res.buy_auto){
+        //warning if buy_auto on this will finish payment
+        $('[name="commit"]').click()
+      }
     }
   }, 50);
 
-  $('#order_terms').click();
-  $('.iCheck-helper').click();
-
-  if(res.buy_auto){
-    //warning if buy_auto on this will finish payment
-    $('[name="commit"]').click()
-  }
   chrome.runtime.sendMessage({type: "off"}, function(res){});
   }, parseInt(res.checkout_delay) * 1000);
 
