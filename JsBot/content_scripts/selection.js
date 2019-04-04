@@ -7,10 +7,10 @@ chrome.storage.sync.get('working_codes', function(res){
   var url = $('img[alt="'+ current_code +'"]').parent().attr("href");
   //if not found on shop
   if(!url){
-    //try again after 250ms
+    //try again after 500ms
     setTimeout(function(){
       chrome.runtime.sendMessage({type: "keep_going"}, function(res){});
-    }, 250);
+    }, 500);
   }
   else chrome.runtime.sendMessage({type: "url", url: url}, function(res){});
 })

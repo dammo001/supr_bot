@@ -9,21 +9,25 @@
     "128": "static/img.png"
   },
   "content_scripts": [{
+    "matches": ["*://www.supremenewyork.com/*"],
+    "js": ["static/jquery.js", "content_scripts/hideImages.js"],
+    "run_at": "document_start"
+  },{
     "matches": ["*://www.supremenewyork.com/shop/all"],
-    "js": ["static/jquery.js", "content_scripts/selection.js"],
+    "js": ["content_scripts/selection.js"],
     "run_at": "document_end"
   }, {
     "matches": ["*://www.supremenewyork.com/shop/*"],
     "exclude_globs": ["*all*", "*cart*"],
-    "js": ["static/jquery.js", "content_scripts/size.js"],
+    "js": ["content_scripts/size.js"],
     "run_at": "document_end"
   }, {
     "matches": ["*://www.supremenewyork.com/checkout"],
-    "js": ["static/jquery.js", "content_scripts/cart.js"],
+    "js": ["content_scripts/cart.js"],
     "run_at": "document_end"
   }, {
     "matches": ["*://*.supremecodes.com/"],
-    "js": ["static/jquery.js", "content_scripts/codes.js"],
+    "js": ["content_scripts/codes.js"],
     "run_at": "document_end"
   }],
   "externally_connectable": {

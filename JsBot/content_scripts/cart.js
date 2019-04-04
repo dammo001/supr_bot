@@ -61,7 +61,7 @@ chrome.storage.sync.get(get, res => {
         $('[name="commit"]').click()
       }
     }
-  }, 50);
+  }, 75);
 
   chrome.runtime.sendMessage({type: "off"}, function(res){});
   }, parseInt(res.checkout_delay) * 1000);

@@ -5,7 +5,7 @@ self.onmessage = function (msg){
   today = new Date()
   seconds_until = (next_drop.getTime() - today.getTime()) / 1000
 
-  while(waiting && seconds_until > 10){
+  while(waiting && seconds_until > 1){
     today = new Date()
     next_second = (next_drop.getTime() - today.getTime()) / 1000
     next_second = Math.floor(next_second)
@@ -36,6 +36,6 @@ function nextDay(x){
   now.setHours(8)
   now.setMinutes(0)
   now.setSeconds(0)
-  now.setMilliseconds(0)
+  now.setMilliseconds(100)
   return now;
 }
