@@ -10,7 +10,7 @@
   },
   "content_scripts": [{
     "matches": ["*://www.supremenewyork.com/*"],
-    "js": ["static/jquery.js", "content_scripts/hideImages.js"],
+    "js": ["static/jquery.js"],
     "run_at": "document_start"
   },{
     "matches": ["*://www.supremenewyork.com/shop/all"],

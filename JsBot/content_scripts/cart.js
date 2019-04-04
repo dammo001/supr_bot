@@ -50,8 +50,10 @@ chrome.storage.sync.get(get, res => {
   }
 
   //Execute each function in the array LIFO on an interval, clear the interval once it's done
+  let time = 100;
   var interval = setInterval(() => {
     const toExecute = cvvInputs.shift();
+    time -= 30
     if (toExecute) {
       toExecute();
     } else {
@@ -61,7 +63,7 @@ chrome.storage.sync.get(get, res => {
         $('[name="commit"]').click()
       }
     }
-  }, 75);
+  }, time);
 
   chrome.runtime.sendMessage({type: "off"}, function(res){});
   }, parseInt(res.checkout_delay) * 1000);
